@@ -112,12 +112,6 @@ class ReactiveCache {
     return this.v[pointer]
   }
   getStorage(key, cb, type) {
-    if (cb === true) {
-      condition = undefined
-    }
-    if (type === true) {
-      type = undefined
-    }
     const storge = getStorageType(type)
 
     let obj = storge.getItem(key)
@@ -142,16 +136,10 @@ class ReactiveCache {
             continue
           }
         }
-        if (cb(data)) remainedData = data
+        if (cb) remainedData = cb(data)
       }
       if (trashArr.length) {
-        this.removeStorage(
-          key,
-          item => {
-            return trashArr.indexOf(item) > -1
-          },
-          'sessionStorage'
-        )
+        this.removeStorage(key, 'sessionStorage')
       }
       return remainedData
     }
@@ -190,14 +178,11 @@ class ReactiveCache {
     }
     return storage.setItem(key, this.serialize(obj))
   }
-  removeFromInstance(key) {
-    delete this[key]
-  }
-  removeStorage(key, cb, type) {
+
+  removeStorage(key, type, cb) {
     const storage = getStorageType(type)
     if (!cb) {
       storage.removeItem(key)
-      this.removeFromInstance(type)
       return
     }
     let obj = storage.getItem(key)
@@ -217,7 +202,6 @@ class ReactiveCache {
           itemKeeper.push(ds)
         }
       }
-      this.makeReactive(type, itemKeeper)
       return storage.setItem(key, this.serialize(itemKeeper))
     }
   }
@@ -235,7 +219,7 @@ class ReactiveCache {
     )
   }
   makeReactive(key, value, cache = false) {
-    if (this.has(key) || !!getStorageType(value).getItem(key)) {
+    if (this.has(key)) {
       throw new Error(
         console.trace(
           `%c the key ${key} is already exists on the instance ${this.constructor.name}`,
@@ -243,20 +227,7 @@ class ReactiveCache {
         )
       )
     }
-
-    const storage = getStorageType(value)
-    if (storage && !cache) {
-      if (!storage.data) {
-        // console.clear()
-        throw new Error(
-          console.trace(
-            `%c${this.constructor.prototype.makeReactive.name} for ${storage.constructor.name} must be called after setStorage is initilized!`,
-            'background: red; color: white; padding: .2rem .3rem; border-radius: 5px; font-weight:bold'
-          )
-        )
-      }
-      this[key] = JSON.parse(storage.data)
-    } else if (cache && !storage) {
+    if (key && cache) {
       console.log(key)
       this.set(key, value)
     } else this[key] = value
@@ -410,12 +381,10 @@ const reactiveCache = cache.watchCache(cache, () => {
 })
 
 // reactiveCache.setStorage('data', data, 0.01 * 60 * 60 * 1000, 'sessionStorage')
-reactiveCache.makeReactive('sessionStorage', sessionStorage)
+reactiveCache.makeReactive(
+  'storage',
+  reactiveCache.getStorage('data', data => data, 'sessionStorage')
+)
 
 reactiveCache.set('data', data)
-
-reactiveCache.getStorage('data', 'sessionStorage', (data, ts, exp) => {
-  console.log(new Date(ts))
-  console.log(new Date(exp))
-  console.log(data)
-})
+// reactiveCache.getStorage('data', data => console.log(data), 'sessionStorage')
