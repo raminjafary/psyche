@@ -5,7 +5,7 @@ type Buffer = Uint8Array | Uint16Array | Uint32Array | Float64Array
 interface CacheApi {
   set(key: string, value: any): void
   get(key: string): any
-  clear(): void
+  destroy(): void
   moveToFront(pointer: number): MemoryCache
   has(key: string): boolean
   track?(key: string, value: any, cache?: boolean): MemoryCache
@@ -21,7 +21,6 @@ export class MemoryCache implements CacheApi {
   private size: number
   private tail: number
   private head: number
-  private static instance: any
 
   constructor(public capacity?: number) {
     this.capacity = capacity
@@ -40,18 +39,17 @@ export class MemoryCache implements CacheApi {
     this.items = {}
   }
   static of(capacity: number) {
-    MemoryCache.instance = new MemoryCache(capacity)
-    return MemoryCache.instance
+    return new MemoryCache(capacity)
   }
 
   watchCache(cb: any): any {
     console.log(
       `%c ${this.constructor.name} is updated`,
       'background: #42c3ab; color: white; padding: .2rem .3rem; margin-bottom:.3rem; border-radius: 5px; font-weight:bold',
-      MemoryCache.instance
+      this
     )
     this.checkAlloc()
-    return watch(MemoryCache.instance, cb)
+    return watch(this, cb)
   }
   get cacheSize() {
     return this.size
@@ -63,14 +61,7 @@ export class MemoryCache implements CacheApi {
     )
     throw new Error(error)
   }
-  destroy() {
-    // this.clear()
-    MemoryCache.instance.__proto__ = null
-    MemoryCache.instance = null
-    delete MemoryCache.instance
-    console.log(MemoryCache.instance)
-  }
-  clear(): void {
+  destroy(): void {
     this.size = 0
     this.head = 0
     this.tail = 0
