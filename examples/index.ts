@@ -1,5 +1,4 @@
-import { MemoryCache } from '../src/memory-cache'
-import { storageCache } from '../src/storage'
+import { MemoryCache, storageCache } from '../src'
 let data = [
   {
     cards: [
@@ -56,4 +55,4 @@ cache.track(
   }),
   true
 )
-cache.destroy()
+// cache.destroy()
