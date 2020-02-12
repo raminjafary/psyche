@@ -42,6 +42,10 @@ const config: webpack.Configuration = {
         test: /\.(ts|js)x?$/,
         loaders: ['babel-loader', 'ts-loader'],
         exclude: /node_modules/
+      },
+      {
+        test: /\.worker\.ts$/,
+        use: { loader: 'worker-loader' }
       }
     ]
   }
