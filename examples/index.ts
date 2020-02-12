@@ -1,4 +1,5 @@
 import { MemoryCache, storageCache } from '../src'
+
 let data = [
   {
     cards: [
@@ -43,16 +44,30 @@ let data = [
 ]
 
 const cache = MemoryCache.of(2).watchCache((c: MemoryCache) => {
-  // c.destroy()
+  console.log(c)
 })
 
-storageCache.sessionStorage.setItem('data', data)
-cache.set('datsa', data)
-cache.track(
-  'data',
-  storageCache.sessionStorage.getItem('data', (data: any, exp: number) => {
-    return data
-  }),
-  true
-)
+// storageCache.sessionStorage.setItem('data', data)
+// cache.set('datsa', data)
+// cache.track(
+//   'data',
+//   storageCache.sessionStorage.getItem('data', (data: any, exp: number) => {
+//     return data
+//   }),
+//   true
+// )
 // cache.destroy()
+// storageCache.sessionStorage.getItem('data', (data: any, exp: number) => {
+//   return data
+// })
+storageCache.sessionStorage.schedule(
+  1000,
+  '10s',
+  { ...data, title: 'SchedulerTile' },
+  (res: any) => {
+    storageCache.sessionStorage.setItem('data', res)
+  }
+)
+// cache.schedule(1000, '3s', { ...data, title: 'SchedulerTile' }, (res: any) => {
+//   cache.set('data', res)
+// })
