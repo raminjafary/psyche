@@ -9,6 +9,7 @@ export type ArrayBuffer =
   | Float64ArrayConstructor
 
 export function getStorageType(type: string | Storage): Storage {
+  if (type !== null && typeof type === 'object') return type
   switch (type) {
     case 'sessionStorage':
       return sessionStorage

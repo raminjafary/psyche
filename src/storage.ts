@@ -15,7 +15,7 @@ interface StorageApi {
 }
 class StorageC implements StorageApi {
   public isExpired: boolean = false
-  constructor(private type: Storage | string = 'sessionStorage') {}
+  constructor(private type: Storage | string) {}
 
   getItem(key: string, cb?: Function): any | Data {
     const storage = getStorageType(this.type)
