@@ -1,4 +1,5 @@
 import { getStorageType, serialize } from './utils'
+import { scheduler } from './utils/scheduler'
 
 interface Data {
   key: string
@@ -101,7 +102,19 @@ class StorageC implements StorageApi {
     }
     return storage.setItem(key, serialize(obj))
   }
-
+  schedule(
+    count: number = 1000,
+    limit: string = '1m',
+    data: any | object,
+    cb: Function
+  ) {
+    const payload = { count, limit, ...data }
+    scheduler(payload, (e: any) => {
+      if (e.data.state === 'done') {
+        cb(e.data)
+      }
+    })
+  }
   removeItem(key: string, cb?: Function): any | Data {
     const storage = getStorageType(this.type)
     if (!cb) {

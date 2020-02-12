@@ -1,6 +1,5 @@
-import { makePointer, watch } from './utils'
-
-type Buffer = Uint8Array | Uint16Array | Uint32Array | Float64Array
+import { makePointer, watch, Buffer } from './utils'
+import { scheduler } from './utils/scheduler'
 
 interface CacheApi {
   set(key: string, value: any): void
@@ -44,7 +43,7 @@ export class MemoryCache implements CacheApi {
 
   watchCache(cb: any): any {
     console.log(
-      `%c ${this.constructor.name} is updated`,
+      `%c ${this.constructor.name} is being watched`,
       'background: #42c3ab; color: white; padding: .2rem .3rem; margin-bottom:.3rem; border-radius: 5px; font-weight:bold',
       this
     )
@@ -60,6 +59,20 @@ export class MemoryCache implements CacheApi {
       'background: red; color: white; padding: .2rem .3rem; border-radius: 5px; font-weight:bold'
     )
     throw new Error(error)
+  }
+  schedule(
+    count: number = 1000,
+    limit: string = '1m',
+    data: any | object,
+    cb: Function
+  ) {
+    const payload = { count, limit, ...data }
+    scheduler(payload, (e: any) => {
+      if (e.data.state === 'done') {
+        cb(e.data)
+        this.checkAlloc()
+      }
+    })
   }
   destroy(): void {
     this.size = 0
