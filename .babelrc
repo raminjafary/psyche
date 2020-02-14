@@ -4,23 +4,12 @@
       "@babel/preset-env",
       {
         "modules": false,
-        "useBuiltIns": "entry"
+        "useBuiltIns": "entry",
+        "targets": {
+          "node": "current"
+        }
       }
     ],
     "@babel/preset-typescript"
-  ],
-  "env": {
-    "test": {
-      "presets": [
-        [
-          "@babel/preset-env",
-          {
-            "targets": {
-              "current": "node"
-            }
-          }
-        ]
-      ]
-    }
-  }
+  ]
 }

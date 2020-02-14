@@ -3,10 +3,12 @@
     "outDir": "./dist/",
     "noImplicitAny": true,
     "module": "commonjs",
-    "target": "es5",
+    "moduleResolution": "node",
+    "target": "es2017",
     "allowJs": true,
-    "esModuleInterop": true
-    // "types": ["./types"]
-    // "exclude": ["node_modules", "dist"]
-  }
+    "esModuleInterop": true,
+    "lib": ["dom", "es5", "scripthost", "es2015.iterable", "es6"],
+    "noEmitHelpers": false
+  },
+  "exclude": ["node_modules", "dist"]
 }
