@@ -1,6 +1,8 @@
 import { MemoryCache, storageCache } from '../src'
+import { scheduleUpdate } from '../src/utils/schedule'
+import { AsyncCache } from '../src/scheduler'
 
-let data = [
+const data = [
   {
     cards: [
       {
@@ -56,18 +58,37 @@ const cache = MemoryCache.of(2).watchCache((c: MemoryCache) => {
 //   }),
 //   true
 // )
-// cache.destroy()
 // storageCache.sessionStorage.getItem('data', (data: any, exp: number) => {
 //   return data
 // })
-storageCache.sessionStorage.schedule(
-  1000,
-  '10s',
-  { ...data, title: 'SchedulerTile' },
-  (res: any) => {
-    storageCache.sessionStorage.setItem('data', res)
+
+scheduleUpdate(
+  { count: 1000, time: '10s', title: 'Clear memory and storage', data },
+  (e: any) => {
+    if (e.data.state === 'done') {
+      console.log(e.data)
+      cache.destroy()
+      storageCache.sessionStorage.clear()
+    }
   }
 )
-// cache.schedule(1000, '3s', { ...data, title: 'SchedulerTile' }, (res: any) => {
-//   cache.set('data', res)
-// })
+const userPosts = new AsyncCache(async function userPosts() {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts?userId=1')
+  const data = res.json()
+  return data
+})
+;(async () => {
+  const data = await userPosts.proxy()
+  console.log('---DATA COMES FROM ASYNC/AWAIT---\n', data)
+  storageCache.sessionStorage.setItem('todoOne', data)
+})()
+
+const postTwo = new AsyncCache((id: number) => {
+  return fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
+    .then((res: any) => res.json())
+    .then((json: any) => json)
+})
+postTwo.proxy(2).then(data => {
+  console.log('---DATA COMES FROM PROMISE---\n', data)
+  cache.set('todoTwo', data)
+}, console.error)
