@@ -1,29 +1,28 @@
 import { getStorageType, serialize } from './utils'
-import { scheduler } from './utils/scheduler'
 
 interface Data {
-  key: string
-  cb?: Function
-  value?: any
-  maxAge?: number
-  size?: number
+  key: string;
+  cb?: Function;
+  value?: any;
+  maxAge?: number;
+  size?: number;
 }
 interface StorageApi {
-  getItem(key: string, cb?: Function): Data
-  setItem(key: string, value: any, maxAge: number, size?: number): Data
-  removeItem(key: string, cb?: Function): Data
-  clear(): void
+  getItem(key: string, cb?: Function): Data;
+  setItem(key: string, value: any, maxAge: number, size?: number): Data;
+  removeItem(key: string, cb?: Function): Data;
+  clear(): void;
 }
 class StorageC implements StorageApi {
-  public isExpired: boolean = false
+  public isExpired = false
   constructor(private type: Storage | string) {}
 
   getItem(key: string, cb?: Function): any | Data {
     const storage = getStorageType(this.type)
 
     let obj = storage.getItem(key)
-    let trashArr = [],
-      remainedData
+    const trashArr = []
+    let remainedData: any
 
     if (obj) {
       try {
@@ -35,7 +34,7 @@ class StorageC implements StorageApi {
       for (let i = 0; i < obj.length; i++) {
         const ds: any = obj[i]
         if (!ds) continue
-        let data = ds.data,
+        const data = ds.data,
           exp = ds.exp
         if (Number(exp) && exp > 0) {
           if (new Date().getTime() > exp) {
@@ -66,13 +65,13 @@ class StorageC implements StorageApi {
     key: string,
     value: any,
     maxAge: number = 1 * 60 * 60 * 1000,
-    size: number = 1
+    size = 1
   ): any | Data {
     const storage = getStorageType(this.type)
     const ts = new Date().getTime(),
       exp = maxAge > 0 ? ts + maxAge : -1
 
-    let data = {
+    const data = {
       ts: ts,
       exp: exp,
       data: value
@@ -102,19 +101,6 @@ class StorageC implements StorageApi {
     }
     return storage.setItem(key, serialize(obj))
   }
-  schedule(
-    count: number = 1000,
-    limit: string = '1m',
-    data: any | object,
-    cb: Function
-  ) {
-    const payload = { count, limit, ...data }
-    scheduler(payload, (e: any) => {
-      if (e.data.state === 'done') {
-        cb(e.data)
-      }
-    })
-  }
   removeItem(key: string, cb?: Function): any | Data {
     const storage = getStorageType(this.type)
     if (!cb) {
@@ -122,7 +108,7 @@ class StorageC implements StorageApi {
       return
     }
     let obj: any = storage.getItem(key)
-    let itemKeeper = []
+    const itemKeeper = []
     if (obj) {
       try {
         obj = JSON.parse(obj)
@@ -131,9 +117,9 @@ class StorageC implements StorageApi {
         return
       }
       for (let i = 0; i < obj.length; i++) {
-        let ds = obj[i]
+        const ds = obj[i]
         if (!ds) continue
-        let data = ds.data
+        const data = ds.data
         if (!cb(data)) {
           itemKeeper.push(ds)
         }

@@ -1,15 +1,13 @@
 import { makePointer, watch, Buffer } from './utils'
-import { scheduler } from './utils/scheduler'
 
 interface CacheApi {
-  set(key: string, value: any): void
-  get(key: string): any
-  destroy(): void
-  moveToFront(pointer: number): MemoryCache
-  has(key: string): boolean
-  track?(key: string, value: any, cache?: boolean): MemoryCache
-  checkAlloc(): void
-  watchCache(cb: Function): any
+  set(key: string, value: any): void;
+  get(key: string): any;
+  destroy(): void;
+  moveToFront(pointer: number): MemoryCache;
+  has(key: string): boolean;
+  track?(key: string, value: any, cache?: boolean): MemoryCache;
+  watchCache(cb: Function): any;
 }
 export class MemoryCache implements CacheApi {
   private next: Buffer
@@ -43,11 +41,10 @@ export class MemoryCache implements CacheApi {
 
   watchCache(cb: any): any {
     console.log(
-      `%c ${this.constructor.name} is being watched`,
+      `%c Watching ${this.constructor.name}`,
       'background: #42c3ab; color: white; padding: .2rem .3rem; margin-bottom:.3rem; border-radius: 5px; font-weight:bold',
       this
     )
-    this.checkAlloc()
     return watch(this, cb)
   }
   get cacheSize() {
@@ -60,20 +57,6 @@ export class MemoryCache implements CacheApi {
     )
     throw new Error(error)
   }
-  schedule(
-    count: number = 1000,
-    limit: string = '1m',
-    data: any | object,
-    cb: Function
-  ) {
-    const payload = { count, limit, ...data }
-    scheduler(payload, (e: any) => {
-      if (e.data.state === 'done') {
-        cb(e.data)
-        this.checkAlloc()
-      }
-    })
-  }
   destroy(): void {
     this.size = 0
     this.head = 0
@@ -85,24 +68,6 @@ export class MemoryCache implements CacheApi {
     this.next = new Uint8Array()
     this.previous = new Uint8Array()
   }
-  checkAlloc(): void {
-    if (this.size >= this.capacity) {
-      const error: any = console.trace(
-        '%c memory allocation exceeded!',
-        'background: red; color: white; padding: .2rem .3rem; border-radius: 5px; font-weight:bold'
-      )
-      throw new Error(error)
-    } else {
-      console.log(
-        `%c ${this.capacity -
-          this.size} bit remaind to exceed the full capacity of ${
-          this.capacity
-        } bit allocated memeory cache`,
-        'background: orange; color: white; padding: .2rem .3rem; border-radius: 5px; font-weight:bold'
-      )
-    }
-  }
-
   moveToFront(pointer: number): MemoryCache {
     const oldhead = this.head
 
@@ -159,7 +124,7 @@ export class MemoryCache implements CacheApi {
     return this.v[pointer]
   }
 
-  track(key: string, value: any, cache: boolean = false): MemoryCache {
+  track(key: string, value: any, cache = false): MemoryCache {
     if (this.has(key)) {
       const error: any = console.trace(
         `%c the key ${key} is already exists on the instance ${this.constructor.name}`,
