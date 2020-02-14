@@ -5,7 +5,7 @@ ctx.addEventListener('message', (e: Event | any) => {
   if (e.data.time) {
     let count = 0
     console.log(
-      `%c Scheduler initilized ${
+      `%c scheduleUpdate initilized ${
         e.data.title ? 'for' + ' ' + e.data.title : ''
       } and resolves after ${Math.floor(+timeKind[0])} seconds `,
       'background: #42c3ab; color: white; padding: .2rem .3rem; margin-bottom:.3rem; border-radius: 5px; font-weight:bold'
@@ -33,7 +33,7 @@ ctx.addEventListener('message', (e: Event | any) => {
         clearInterval(timerid)
         ;(ctx as any).close()
         console.log(
-          `%c Scheduler ${
+          `%c scheduleUpdate ${
             e.data.title ? 'for' + ' ' + e.data.title : ''
           } is resolved`,
           'background: #42c3ab; color: white; padding: .2rem .3rem; margin-bottom:.3rem; border-radius: 5px; font-weight:bold'

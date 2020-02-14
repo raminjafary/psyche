@@ -1,8 +1,8 @@
 const MAX_8BIT_INTEGER: number = Math.pow(2, 8) - 1
 const MAX_16BIT_INTEGER: number = Math.pow(2, 16) - 1
 const MAX_32BIT_INTEGER: number = Math.pow(2, 32) - 1
-export type Buffer = Uint8Array | Uint16Array | Uint32Array | Float64Array
 
+export type Buffer = Uint8Array | Uint16Array | Uint32Array | Float64Array
 export type ArrayBuffer =
   | Uint8ArrayConstructor
   | Uint16ArrayConstructor
@@ -57,11 +57,11 @@ export function watch(object: any, cb: Function) {
       }
     },
     defineProperty(target: any, property: any, descriptor: any) {
-      cb(object)
+      if (property === 'size') cb(object)
       return Reflect.defineProperty(target, property, descriptor)
     },
     deleteProperty(target: any, property: any) {
-      cb(object)
+      if (property === 'size') cb(object)
       return Reflect.deleteProperty(target, property)
     }
   }

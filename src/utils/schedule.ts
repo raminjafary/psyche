@@ -1,6 +1,6 @@
-import Worker from 'worker-loader!./delay-runner'
+import Worker from 'worker-loader!./schedule-runner'
 
-export function scheduler(data?: any | object, cb?: any): void {
+export function scheduleUpdate(data?: any | object, cb?: any): void {
   const worker = new Worker()
   if (data.time) {
     worker.addEventListener('message', cb)
