@@ -1,5 +1,4 @@
 import { MemoryCache, storageCache } from '../src'
-import { scheduleUpdate } from '../src/utils/schedule'
 import { AsyncCache } from '../src/scheduler'
 
 const data = [
@@ -62,16 +61,6 @@ const cache = MemoryCache.of(2).watchCache((c: MemoryCache) => {
 //   return data
 // })
 
-scheduleUpdate(
-  { count: 1000, time: '10s', title: 'Clear memory and storage', data },
-  (e: any) => {
-    if (e.data.state === 'done') {
-      console.log(e.data)
-      cache.destroy()
-      storageCache.sessionStorage.clear()
-    }
-  }
-)
 const userPosts = new AsyncCache(async function userPosts() {
   const res = await fetch('https://jsonplaceholder.typicode.com/posts?userId=1')
   const data = res.json()
