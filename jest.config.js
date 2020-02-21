@@ -7,6 +7,9 @@ module.exports = {
   testPathIgnorePatterns: [
     '<rootDir>/(dist|node_modules|types|__tests__/mocks|__tests__/coverage)/'
   ],
+  transform: {
+    '^.+\\.ts?$': 'ts-jest'
+  },
   coverageDirectory: '__tests__/coverage',
   collectCoverageFrom: ['src/**/*.{ts,js}', 'examples/**/*.{ts,js}'],
   coverageThreshold: {
