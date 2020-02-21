@@ -50,7 +50,7 @@ export class AsyncCache {
     // console.log(`${(this.end - this.start).toFixed(2)}ms`)
   }
   proxy(...args: any) {
-    let _this = this
+    const _this = this
     return new Promise(function(...c) {
       _this.prosmiseKeeper[++_this.id] = c
       _this.worker.postMessage(

@@ -9,5 +9,21 @@
     "sourceType": "module"
   },
   "extends": ["plugin:@typescript-eslint/recommended", "prettier"],
-  "plugins": ["import", "prettier"]
+  "plugins": ["import", "prettier"],
+  "rules": {
+    "@typescript-eslint/no-this-alias": [
+      "error",
+      {
+        "allowDestructuring": true,
+        "allowedNames": ["_this"]
+      }
+    ],
+    "@typescript-eslint/no-inferrable-types": [
+      0,
+      {
+        "ignoreParameters": 0,
+        "ignoreProperties": 0
+      }
+    ]
+  }
 }

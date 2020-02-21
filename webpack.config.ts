@@ -1,7 +1,7 @@
 import webpack from 'webpack'
 import path from 'path'
 import CompressionPlugin from 'compression-webpack-plugin'
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 const NODE_ENV: string = process.env.NODE_ENV
 
