@@ -1,13 +1,16 @@
 sudo: false
 language: node_js
 cache:
+  yarn: true
   directories:
-    - ~/.yarn
+    - node_modules
 notifications:
   email: false
 node_js: '12'
 install: echo "install happens when run setup"
-script: yarn setup
-after_script: npx codecov@3
+script:
+  - yarn setup
+  - yarn global add codecov
+after_script: codecov
 branches:
   only: master
