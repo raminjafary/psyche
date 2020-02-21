@@ -1,0 +1,13 @@
+sudo: false
+language: node_js
+cache:
+  directories:
+    - ~/.yarn
+notifications:
+  email: false
+node_js: '12'
+install: echo "install happens when run setup"
+script: yarn setup
+after_script: npx codcov@3
+branches:
+  only: master
