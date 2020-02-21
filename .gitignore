@@ -3,3 +3,4 @@ dist/
 report.*
 yarn-error.log
 .env
+__tests__/coverage/
