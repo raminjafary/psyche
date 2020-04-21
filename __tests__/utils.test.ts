@@ -4,8 +4,7 @@ import {
   MAX_8BIT_INTEGER,
   MAX_16BIT_INTEGER,
   MAX_32BIT_INTEGER,
-  serialize,
-  watch
+  serialize
 } from '../src/utils'
 
 describe('should test getStorageType function', () => {
@@ -49,32 +48,5 @@ describe('should test serialize function', () => {
     expect(serialize({ a: undefined, c: null, b: 5 })).toBe(
       JSON.stringify({ b: 5 })
     )
-  })
-})
-
-describe('should test watch function', () => {
-  const obj: any = { name: 'ramin', size: 1 }
-  const proxy = watch(obj, (a: any) => console.log(a))
-
-  test('should watch and return equal obj', () => {
-    expect(proxy).toEqual(obj)
-  })
-  test('should watch and return equal obj when size changes', () => {
-    proxy.size = 50
-    proxy.name = 'vahid'
-    expect(proxy).toEqual(obj)
-  })
-  test('should watch and delete size and return equal obj', () => {
-    delete proxy.name
-    delete proxy.size
-    expect(proxy).toEqual(obj)
-  })
-  test('should watch and return readonly value without proxy wrapper', () => {
-    const op = Object.defineProperty({ size: 2 }, 'size', {
-      value: 0,
-      writable: false,
-      configurable: false
-    })
-    expect(watch(op, (a: any) => a)).toEqual(op)
   })
 })

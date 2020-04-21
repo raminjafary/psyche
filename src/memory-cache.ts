@@ -1,4 +1,4 @@
-import { makePointer, watch, Buffer } from './utils'
+import { makePointer, Buffer } from './utils'
 
 interface CacheApi {
   set(key: string, value: any): void;
@@ -7,7 +7,6 @@ interface CacheApi {
   moveToFront(pointer: number): MemoryCache;
   has(key: string): boolean;
   track?(key: string, value: any, cache?: boolean): MemoryCache;
-  watchCache(cb: Function): any;
 }
 export class MemoryCache implements CacheApi {
   private next: Buffer
@@ -39,14 +38,6 @@ export class MemoryCache implements CacheApi {
     return new MemoryCache(capacity)
   }
 
-  watchCache(cb: any): any {
-    console.log(
-      `%c Watching ${this.constructor.name}`,
-      'background: #42c3ab; color: white; padding: .2rem .3rem; margin-bottom:.3rem; border-radius: 5px; font-weight:bold',
-      this
-    )
-    return watch(this, cb)
-  }
   get cacheSize() {
     return this.size
   }

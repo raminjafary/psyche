@@ -39,28 +39,3 @@ export function serialize(obj: any, ind?: number): string {
     ind
   )
 }
-
-export function watch(object: any, cb: Function) {
-  const handler = {
-    get(target: any, property: any, receiver: any): string {
-      const desc = Object.getOwnPropertyDescriptor(target, property)
-      const value = Reflect.get(target, property, receiver)
-
-      if (desc && !desc.writable && !desc.configurable) return value
-      try {
-        return new Proxy(target[property], handler)
-      } catch (err) {
-        return Reflect.get(target, property, receiver)
-      }
-    },
-    defineProperty(target: any, property: any, descriptor: any) {
-      if (property === 'size') cb(object)
-      return Reflect.defineProperty(target, property, descriptor)
-    },
-    deleteProperty(target: any, property: any) {
-      if (property === 'size') cb(object)
-      return Reflect.deleteProperty(target, property)
-    }
-  }
-  return new Proxy(object, handler)
-}
