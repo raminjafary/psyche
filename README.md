@@ -1,2 +1,2 @@
 # js-cache
-A simple but powerful JavaScript cache library written in TypeScript
+**A lightweight and memory-efficient cache library**
