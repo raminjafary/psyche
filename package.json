@@ -1,5 +1,5 @@
 {
-  "name": "raminjafary",
+  "name": "js-cache",
   "version": "1.0.0",
   "description": "A simple fast memory-efficient caching library",
   "main": "src/index.js",
@@ -7,7 +7,7 @@
   "author": "raminjafary <raminjafary1993@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --mode development",
+    "dev": "webpack serve --mode development",
     "build": "NODE_ENV=production webpack",
     "test": "jest --verbose --coverage",
     "test-debug": "node --inspect-brk ./node-modules/jest/bin/jest.js --runInBand --watch",
