@@ -9,7 +9,7 @@ export class AsyncCache {
   worker: Worker
   start: number
   end: number
-  constructor(private asyncFn: Function) {
+  constructor(private asyncFn: any) {
     this.createInlineScript()
     this.createWorker()
   }
@@ -51,7 +51,7 @@ export class AsyncCache {
   }
   proxy(...args: any) {
     const _this = this
-    return new Promise(function(...c) {
+    return new Promise(function (...c) {
       _this.prosmiseKeeper[++_this.id] = c
       _this.worker.postMessage(
         [_this.id, args],

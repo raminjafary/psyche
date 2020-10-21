@@ -1,18 +1,18 @@
 import { makePointer, Buffer } from './utils'
 
 interface CacheApi {
-  set(key: string, value: any): void;
-  get(key: string): any;
-  destroy(): void;
-  moveToFront(pointer: number): MemoryCache;
-  has(key: string): boolean;
-  track?(key: string, value: any, cache?: boolean): MemoryCache;
+  set(key: string, value: any): void
+  get(key: string): any
+  destroy(): void
+  moveToFront(pointer: number): MemoryCache
+  has(key: string): boolean
+  track?(key: string, value: any, cache?: boolean): MemoryCache
 }
 export class MemoryCache implements CacheApi {
   private next: Buffer
   private k: Array<string>
   private v: Array<number>
-  private items: object | any
+  private items: any
   private previous: Buffer
   private size: number
   private tail: number
@@ -127,7 +127,7 @@ export class MemoryCache implements CacheApi {
       this.set(key, value)
       this.get(key)
     } else {
-      ;(this as any)[key] = value
+      (this as any)[key] = value
       return this
     }
   }

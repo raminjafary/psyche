@@ -1,23 +1,23 @@
 import { getStorageType, serialize } from './utils'
 
 interface Data {
-  key: string;
-  cb?: Function;
-  value?: any;
-  maxAge?: number;
-  size?: number;
+  key: string
+  cb?: any
+  value?: any
+  maxAge?: number
+  size?: number
 }
 interface StorageApi {
-  getItem(key: string, cb?: Function): Data;
-  setItem(key: string, value: any, maxAge: number, size?: number): Data;
-  removeItem(key: string, cb?: Function): Data;
-  clear(): void;
+  getItem(key: string, cb?: any): Data
+  setItem(key: string, value: any, maxAge: number, size?: number): Data
+  removeItem(key: string, cb?: any): Data
+  clear(): void
 }
 class StorageC implements StorageApi {
   public isExpired = false
   constructor(private type: Storage | string) {}
 
-  getItem(key: string, cb?: Function): any | Data {
+  getItem(key: string, cb?: any): any | Data {
     const storage = getStorageType(this.type)
 
     let obj = storage.getItem(key)
@@ -74,7 +74,7 @@ class StorageC implements StorageApi {
     const data = {
       ts: ts,
       exp: exp,
-      data: value
+      data: value,
     }
 
     let obj: any = storage.getItem(key)
@@ -95,13 +95,13 @@ class StorageC implements StorageApi {
         {
           ts: ts,
           exp: exp,
-          data: value
-        }
+          data: value,
+        },
       ]
     }
     return storage.setItem(key, serialize(obj))
   }
-  removeItem(key: string, cb?: Function): any | Data {
+  removeItem(key: string, cb?: any): any | Data {
     const storage = getStorageType(this.type)
     if (!cb) {
       storage.removeItem(key)
@@ -161,5 +161,5 @@ class LocalStorage {
 
 export const storageCache = {
   sessionStorage: SessionStorage.create(),
-  localStorage: LocalStorage.create()
+  localStorage: LocalStorage.create(),
 }
