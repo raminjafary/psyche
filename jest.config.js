@@ -2,15 +2,15 @@ module.exports = {
   testEnvironment: 'jest-environment-jsdom',
   moduleNameMapper: {
     '\\.s?css$':
-      'identity-obj-proxy' || require.resolve('./__tests__/mocks/style-mock.ts')
+      'identity-obj-proxy' || require.resolve('./tests/mocks/style-mock.ts')
   },
   testPathIgnorePatterns: [
-    '<rootDir>/(dist|node_modules|types|__tests__/mocks|__tests__/coverage)/'
+    '<rootDir>/(dist|node_modules|types|tests/mocks|tests/coverage)/'
   ],
   transform: {
     '^.+\\.ts?$': 'ts-jest'
   },
-  coverageDirectory: '__tests__/coverage',
+  coverageDirectory: 'tests/coverage',
   collectCoverageFrom: ['src/**/*.{ts,js}', 'examples/**/*.{ts,js}'],
   coverageThreshold: {
     global: {
