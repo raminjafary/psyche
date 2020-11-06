@@ -11,7 +11,7 @@ const getAbsolutePath = function (folderName: string): string {
 
 const config: webpack.Configuration = {
   entry: {
-    'reactive-cache': './examples/index.ts',
+    psyche: './examples/index.ts',
   },
   output: {
     filename: '[name].min.js',
@@ -32,7 +32,7 @@ const config: webpack.Configuration = {
       algorithm: 'gzip',
     }) as any,
     new HtmlWebpackPlugin({
-      title: 'js-cache',
+      title: 'psyche',
       filename: 'index.html',
     }),
   ],
