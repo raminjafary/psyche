@@ -11,7 +11,7 @@ const getAbsolutePath = function (folderName: string): string {
 
 const config: webpack.Configuration = {
   entry: {
-    psyche: './examples/index.ts',
+    psyche: './tests/fixtures/index.ts',
   },
   output: {
     filename: '[name].min.js',

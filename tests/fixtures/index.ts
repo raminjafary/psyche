@@ -1,4 +1,4 @@
-import { MemoryCache, storageCache } from '../src'
+import { MemoryCache, storageCache } from '../../src'
 
 const cache = MemoryCache.of(2)
 
