@@ -9,18 +9,6 @@ export type ArrayBuffer =
   | Uint32ArrayConstructor
   | Float64ArrayConstructor
 
-export function getStorageType(type?: string | Storage): Storage {
-  if (type !== null && typeof type === 'object') return type
-  switch (type) {
-    case 'sessionStorage':
-      return sessionStorage
-    case 'localStorage':
-      return localStorage
-    default:
-      return sessionStorage
-  }
-}
-
 export function makePointer(size?: number): ArrayBuffer {
   const maxIndex: number = size - 1
 
@@ -30,12 +18,32 @@ export function makePointer(size?: number): ArrayBuffer {
   return Float64Array
 }
 
-export function serialize(obj: any, ind?: number): string {
+export function serialize(
+  obj: any,
+  replacer: () => void | any = undefined,
+  indentation: number = 1
+): string {
   return JSON.stringify(
     obj,
-    (k, v) => {
-      if (v) return v
-    },
-    ind
+    typeof replacer === 'function'
+      ? replacer
+      : (k, v) => {
+          if (v) return v
+        },
+    indentation
+  )
+}
+
+export function deserialize(
+  obj: any,
+  replacer: () => void | any = undefined
+): string {
+  return JSON.parse(
+    obj,
+    typeof replacer === 'function'
+      ? replacer
+      : (k, v) => {
+          if (v) return v
+        }
   )
 }

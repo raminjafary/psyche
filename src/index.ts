@@ -1,2 +1,1 @@
-export { MemoryCache } from '../src/memory-cache'
-export { storageCache } from '../src/storage'
+export { Cache } from './cache'

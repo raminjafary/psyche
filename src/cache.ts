@@ -4,11 +4,11 @@ interface CacheApi {
   set(key: string, value: any): void
   get(key: string): any
   destroy(): void
-  moveToFront(pointer: number): MemoryCache
+  moveToFront(pointer: number): Cache
   has(key: string): boolean
-  track?(key: string, value: any, cache?: boolean): MemoryCache
+  track?(key: string, value: any, cache?: boolean): Cache
 }
-export class MemoryCache implements CacheApi {
+export class Cache implements CacheApi {
   private next: Buffer
   private k: Array<string>
   private v: Array<number>
@@ -35,7 +35,7 @@ export class MemoryCache implements CacheApi {
     this.items = {}
   }
   static of(capacity: number) {
-    return new MemoryCache(capacity)
+    return new Cache(capacity)
   }
 
   get cacheSize() {
@@ -59,7 +59,7 @@ export class MemoryCache implements CacheApi {
     this.next = new Uint8Array()
     this.previous = new Uint8Array()
   }
-  moveToFront(pointer: number): MemoryCache {
+  moveToFront(pointer: number): Cache {
     const oldhead = this.head
 
     if (this.head === pointer) return this
@@ -115,7 +115,7 @@ export class MemoryCache implements CacheApi {
     return this.v[pointer]
   }
 
-  track(key: string, value: any, cache = false): MemoryCache {
+  track(key: string, value: any, cache = false): Cache {
     if (this.has(key)) {
       const error: any = console.trace(
         `%c the key ${key} is already exists on the instance ${this.constructor.name}`,
