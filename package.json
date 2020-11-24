@@ -17,7 +17,7 @@
     "setup": "yarn install && yarn lint && jest && yarn build"
   },
   "devDependencies": {
-    "@babel/core": "7.12.7",
+    "@babel/core": "7.12.8",
     "@babel/preset-env": "7.12.7",
     "@babel/preset-typescript": "7.12.7",
     "@types/compression-webpack-plugin": "6.0.0",
