@@ -127,7 +127,7 @@ export class Cache implements CacheApi {
       this.set(key, value)
       this.get(key)
     } else {
-      (this as any)[key] = value
+      ;(this as any)[key] = value
       return this
     }
   }
