@@ -1,17 +1,27 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
+    "outDir": "dist",
     "noImplicitAny": true,
-    "module": "commonjs",
     "moduleResolution": "node",
-    "target": "es2017",
-    "allowJs": true,
     "esModuleInterop": true,
     "declaration": true,
     "sourceMap": true,
+    "target": "esnext",
+    "module": "commonjs",
+    "allowJs": true,
+    "strict": true,
+    "experimentalDecorators": true,
     "lib": ["dom", "es5", "scripthost", "es2015.iterable", "es6"],
     "noEmitHelpers": false,
-    "typeRoots": ["./node_modules/@types"]
+    "types": [
+      "@types/node",
+      "@types/jest",
+    ]
   },
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules", "dist"
+  ]
 }

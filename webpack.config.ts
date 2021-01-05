@@ -3,19 +3,13 @@ import path from 'path'
 import CompressionPlugin from 'compression-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 
-const NODE_ENV: string = process.env.NODE_ENV
-
-const getAbsolutePath = function (folderName: string): string {
-  return path.join(__dirname, folderName)
-}
+const NODE_ENV = process.env.NODE_ENV
 
 const config: webpack.Configuration = {
-  entry: {
-    psyche: './tests/fixtures/index.ts',
-  },
+  entry: './src/index.ts',
   output: {
     filename: '[name].min.js',
-    path: getAbsolutePath('dist'),
+    path: path.join(__dirname, 'dist'),
   },
   resolve: {
     extensions: ['.ts', '.js'],

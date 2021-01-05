@@ -7,8 +7,8 @@
   "author": "raminjafary <raminjafary1993@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack serve --mode development",
-    "build": "NODE_ENV=production webpack",
+    "dev": "webpack serve --mode development --entry ./playground/index.ts",
+    "build": "NODE_ENV=production webpack --progress",
     "test": "jest --verbose --coverage",
     "test-debug": "node --inspect-brk ./node-modules/jest/bin/jest.js --runInBand --watch",
     "test:watch": "jest --watch",
