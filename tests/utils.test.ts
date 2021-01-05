@@ -25,10 +25,12 @@ describe('should test makePointer function', () => {
 
 describe('should test serialize function', () => {
   test('should stringify entity with proper indentation', () => {
-    expect(serialize({ a: 1 }, null, 5)).toBe(JSON.stringify({ a: 1 }, null, 5))
+    expect(serialize({ a: 1 }, undefined, 5)).toBe(
+      JSON.stringify({ a: 1 }, null, 5)
+    )
   })
   test('should skip value null and undefined', () => {
-    expect(serialize({ a: undefined, c: null, b: 5 }, null, 0)).toBe(
+    expect(serialize({ a: undefined, c: null, b: 5 }, undefined, 0)).toBe(
       JSON.stringify({ b: 5 })
     )
   })

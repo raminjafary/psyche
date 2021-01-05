@@ -1,6 +1,6 @@
-export const MAX_8BIT_INTEGER: number = Math.pow(2, 8) - 1
-export const MAX_16BIT_INTEGER: number = Math.pow(2, 16) - 1
-export const MAX_32BIT_INTEGER: number = Math.pow(2, 32) - 1
+export const MAX_8BIT_INTEGER = Math.pow(2, 8) - 1
+export const MAX_16BIT_INTEGER = Math.pow(2, 16) - 1
+export const MAX_32BIT_INTEGER = Math.pow(2, 32) - 1
 
 export type Buffer = Uint8Array | Uint16Array | Uint32Array | Float64Array
 export type ArrayBuffer =
@@ -9,7 +9,7 @@ export type ArrayBuffer =
   | Uint32ArrayConstructor
   | Float64ArrayConstructor
 
-export function makePointer(size?: number): ArrayBuffer {
+export function makePointer(size: number = Math.pow(2, 64) - 1): ArrayBuffer {
   const maxIndex: number = size - 1
 
   if (maxIndex <= MAX_8BIT_INTEGER) return Uint8Array
@@ -20,7 +20,7 @@ export function makePointer(size?: number): ArrayBuffer {
 
 export function serialize(
   obj: any,
-  replacer: () => void | any = undefined,
+  replacer: undefined | (() => void) = undefined,
   indentation: number = 1
 ): string {
   return JSON.stringify(
@@ -36,7 +36,7 @@ export function serialize(
 
 export function deserialize(
   obj: any,
-  replacer: () => void | any = undefined
+  replacer: undefined | (() => void) = undefined
 ): string {
   return JSON.parse(
     obj,

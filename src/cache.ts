@@ -6,7 +6,6 @@ interface CacheApi {
   destroy(): void
   moveToFront(pointer: number): Cache
   has(key: string): boolean
-  track?(key: string, value: any, cache?: boolean): Cache
 }
 export class Cache implements CacheApi {
   private next: Buffer
@@ -18,7 +17,7 @@ export class Cache implements CacheApi {
   private tail: number
   private head: number
 
-  constructor(public capacity?: number) {
+  constructor(public capacity: number = 20) {
     this.capacity = capacity
 
     if (typeof this.capacity !== 'number' || this.capacity <= 0) {
@@ -48,7 +47,7 @@ export class Cache implements CacheApi {
     )
     throw new Error(error)
   }
-  destroy(): void {
+  destroy() {
     this.size = 0
     this.head = 0
     this.tail = 0
@@ -59,7 +58,7 @@ export class Cache implements CacheApi {
     this.next = new Uint8Array()
     this.previous = new Uint8Array()
   }
-  moveToFront(pointer: number): Cache {
+  moveToFront(pointer: number) {
     const oldhead = this.head
 
     if (this.head === pointer) return this
@@ -79,7 +78,7 @@ export class Cache implements CacheApi {
     return this
   }
 
-  set(key: string, value: any): void {
+  set(key: string, value: any) {
     let pointer = this.items[key]
 
     if (typeof pointer !== 'undefined') {
@@ -104,33 +103,17 @@ export class Cache implements CacheApi {
     this.previous[this.head] = pointer
     this.head = pointer
   }
-  has(key: string): boolean {
+  has(key: string) {
     return key in this.items
   }
 
-  get(key: string): number {
+  get(key: string) {
     const pointer = this.items[key]
     if (typeof pointer === 'undefined') return null
     this.moveToFront(pointer)
     return this.v[pointer]
   }
 
-  track(key: string, value: any, cache = false): Cache {
-    if (this.has(key)) {
-      const error: any = console.trace(
-        `%c the key ${key} is already exists on the instance ${this.constructor.name}`,
-        'background: red; color: white; padding: .2rem .3rem; border-radius: 5px; font-weight:bold'
-      )
-      throw new Error(error)
-    }
-    if (cache) {
-      this.set(key, value)
-      this.get(key)
-    } else {
-      ;(this as any)[key] = value
-      return this
-    }
-  }
   *[Symbol.iterator]() {
     let pointer = this.head
     let i = 0
