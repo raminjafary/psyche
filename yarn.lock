@@ -1155,10 +1155,10 @@
     "@types/node" "*"
     source-map "^0.6.0"
 
-"@types/compression-webpack-plugin@6.0.2":
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/@types/compression-webpack-plugin/-/compression-webpack-plugin-6.0.2.tgz#a2edcfb56909f0b479a368eb1e9197bdef0a6d6a"
-  integrity sha512-V3Gbsj3W0GtqTl9haJJsSzCFhc+fPhuq3wE72q6xtWRN/sgmze/TVGTxX1oF1bc74OVwjlPsYyRk8iB52cOJhg==
+"@types/compression-webpack-plugin@6.0.4":
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/@types/compression-webpack-plugin/-/compression-webpack-plugin-6.0.4.tgz#a0578f14c5a34c07d9feec84efa312f4ab277c04"
+  integrity sha512-ZyO7hXMsgWELlYW5Cu+WrGsI55iRH3y7GX5d3jCjEAs40nVqd57G+1VtkhUUPcUWZevMENrXPlc1/vLOVF4FBQ==
   dependencies:
     "@types/webpack" "*"
 
